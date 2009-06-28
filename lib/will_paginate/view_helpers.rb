@@ -230,8 +230,10 @@ module WillPaginate
     def to_html
       links = @options[:page_links] ? windowed_links : []
       # previous/next buttons
-      links.unshift page_link_or_span(@collection.previous_page, 'disabled prev_page', @options[:previous_label])
-      links.push    page_link_or_span(@collection.next_page,     'disabled next_page', @options[:next_label])
+      previous_label = I18n.t(:'pagination.previous_label', :default => @options[:previous_label].to_s)
+      next_label     = I18n.t(:'pagination.next_label', :default => @options[:next_label].to_s)
+      links.unshift page_link_or_span(@collection.previous_page, 'disabled prev_page', previous_label)
+      links.push    page_link_or_span(@collection.next_page,     'disabled next_page', next_label)
       
       html = links.join(@options[:separator])
       @options[:container] ? @template.content_tag(:div, html, html_attributes) : html
