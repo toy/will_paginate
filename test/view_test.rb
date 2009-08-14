@@ -38,7 +38,7 @@ class ViewTest < WillPaginate::ViewTestCase
     paginate({ :page => 2 },
              :class => 'will_paginate', :previous_label => 'Prev', :next_label => 'Next') do
       assert_select 'a[href]', 4 do |elements|
-        validate_page_numbers [1,1,3,3], elements
+        validate_page_numbers [nil,nil,3,3], elements
         # test rel attribute values:
         assert_select elements[1], 'a', '1' do |link|
           assert_equal 'prev start', link.first['rel']
@@ -124,7 +124,7 @@ class ViewTest < WillPaginate::ViewTestCase
   def test_will_paginate_without_page_links
     paginate({ :page => 2 }, :page_links => false) do
       assert_select 'a[href]', 2 do |elements|
-        validate_page_numbers [1,3], elements
+        validate_page_numbers [nil,3], elements
       end
     end
   end
@@ -132,7 +132,7 @@ class ViewTest < WillPaginate::ViewTestCase
   def test_will_paginate_windows
     paginate({ :page => 6, :per_page => 1 }, :inner_window => 1) do |pagination|
       assert_select 'a[href]', 8 do |elements|
-        validate_page_numbers [5,1,2,5,7,10,11,7], elements
+        validate_page_numbers [5,nil,2,5,7,10,11,7], elements
         assert_select elements.first, 'a', '&laquo; Previous'
         assert_select elements.last, 'a', 'Next &raquo;'
       end
@@ -144,7 +144,7 @@ class ViewTest < WillPaginate::ViewTestCase
   def test_will_paginate_eliminates_small_gaps
     paginate({ :page => 6, :per_page => 1 }, :inner_window => 2) do
       assert_select 'a[href]', 12 do |elements|
-        validate_page_numbers [5,1,2,3,4,5,7,8,9,10,11,7], elements
+        validate_page_numbers [5,nil,2,3,4,5,7,8,9,10,11,7], elements
       end
     end
   end
@@ -273,7 +273,7 @@ class ViewTest < WillPaginate::ViewTestCase
   def test_will_paginate_with_custom_page_param
     paginate({ :page => 2 }, :param_name => :developers_page) do
       assert_select 'a[href]', 4 do |elements|
-        validate_page_numbers [1,1,3,3], elements, :developers_page
+        validate_page_numbers [nil,nil,3,3], elements, :developers_page
       end
     end
   end

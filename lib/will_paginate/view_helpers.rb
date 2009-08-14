@@ -327,7 +327,7 @@ module WillPaginate
           
           stringified_merge @url_params, page_param
         else
-          @url_params[param_name] = page_one ? 1 : 2
+          @url_params[param_name] = page_one ? nil : 2
         end
 
         url = @template.url_for(@url_params)
